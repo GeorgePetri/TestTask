@@ -2,6 +2,7 @@ using Identity.Api.Controllers;
 using Identity.Domain.Managers;
 using Identity.Persistence;
 using Identity.Persistence.Managers;
+using Identity.Security;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -29,6 +30,7 @@ namespace Identity.Startup
             services.AddControllers()
                 .AddApplicationPart(typeof(UsersController).Assembly);
             services.AddTransient<IUserManager, UserManager>();
+            services.AddTransient<IPasswordManager, PasswordManager>();
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "Identity.Startup", Version = "v1" }); });
         }
 

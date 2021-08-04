@@ -13,11 +13,13 @@ namespace Identity.Persistence.Managers
     public class UserManager : IUserManager
     {
         private readonly ApplicationDbContext _context;
+        private readonly IPasswordManager _passwordManager;
         private readonly ILogger<ApplicationDbContext> _logger;
 
-        public UserManager(ApplicationDbContext context, ILogger<ApplicationDbContext> logger)
+        public UserManager(ApplicationDbContext context, IPasswordManager passwordManager, ILogger<ApplicationDbContext> logger)
         {
             _context = context;
+            _passwordManager = passwordManager;
             _logger = logger;
         }
 
@@ -36,10 +38,12 @@ namespace Identity.Persistence.Managers
 
         public async Task<UserEntity> Create(UserRequest request)
         {
+            var hashedPassword = _passwordManager.HashPassword(request.Password);
+
             var entity = new UserEntity
             {
                 Login = request.Login,
-                Password = request.Password,
+                Password = hashedPassword,
                 FirstName = request.FirstName,
                 LastName = request.LastName,
                 AddressEntity = new AddressEntity

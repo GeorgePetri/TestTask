@@ -10,9 +10,9 @@ namespace Identity.Persistence
         {
         }
 
-        public DbSet<UserEntity> Users { get; set; }
+        public DbSet<UserEntity> Users { get; private set; }
 
-        public DbSet<AddressEntity> Addresses { get; set; }
+        public DbSet<AddressEntity> Addresses { get; private set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

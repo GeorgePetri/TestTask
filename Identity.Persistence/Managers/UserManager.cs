@@ -23,18 +23,41 @@ namespace Identity.Persistence.Managers
             _logger = logger;
         }
 
-        public Task<UserEntity> GetById(long id) =>
-            WithIncludeAddress()
+        public async Task<UserEntity> GetById(long id)
+        {
+            var user = await WithIncludeAddress()
                 .FirstOrDefaultAsync(u => u.Id == id);
 
-        public async Task<UserEntity> GetByLogin(string login) =>
-            await WithIncludeAddress()
+            if (user != null)
+                HidePassword(user);
+
+            return user;
+        }
+
+        public async Task<UserEntity> GetByLogin(string login)
+        {
+            var user = await WithIncludeAddress()
                 .FirstOrDefaultAsync(u => u.Login == login);
 
-        public async Task<IEnumerable<UserEntity>> GetByCountry(string country) =>
-            await WithIncludeAddress()
+            if (user != null)
+                HidePassword(user);
+
+            return user;
+        }
+
+        public async Task<IEnumerable<UserEntity>> GetByCountry(string country)
+        {
+            var users = await WithIncludeAddress()
                 .Where(u => u.AddressEntity.Country == country)
                 .ToListAsync();
+
+            foreach (var user in users)
+            {
+                HidePassword(user);
+            }
+
+            return users;
+        }
 
         public async Task<UserEntity> Create(UserRequest request)
         {
@@ -72,10 +95,17 @@ namespace Identity.Persistence.Managers
                 return null;
             }
 
+            HidePassword(entity);
+
             return entity;
         }
 
         private IQueryable<UserEntity> WithIncludeAddress() =>
             _context.Users.Include(u => u.AddressEntity);
+
+        private static void HidePassword(UserEntity userEntity)
+        {
+            userEntity.Password = "Redacted";
+        }
     }
 }

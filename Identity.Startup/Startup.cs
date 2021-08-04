@@ -1,3 +1,4 @@
+using Identity.Api.Controllers;
 using Identity.Domain.Managers;
 using Identity.Persistence;
 using Identity.Persistence.Managers;
@@ -8,7 +9,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using TestWeb.API.Controllers;
 
 namespace Identity.Startup
 {

@@ -13,6 +13,6 @@ namespace Identity.Domain.Managers
 
         Task<IEnumerable<UserEntity>> GetByCountry(string country);
 
-        Task Create(UserRequest request);
+        Task<UserEntity> Create(UserRequest request);
     }
 }

@@ -6,14 +6,20 @@ using Identity.Domain.Entities;
 using Identity.Domain.Managers;
 using Identity.Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace Identity.Persistence.Managers
 {
     public class UserManager : IUserManager
     {
         private readonly ApplicationDbContext _context;
+        private readonly ILogger<ApplicationDbContext> _logger;
 
-        public UserManager(ApplicationDbContext context) => _context = context;
+        public UserManager(ApplicationDbContext context, ILogger<ApplicationDbContext> logger)
+        {
+            _context = context;
+            _logger = logger;
+        }
 
         public Task<UserEntity> GetById(long id) =>
             WithIncludeAddress()
@@ -28,9 +34,9 @@ namespace Identity.Persistence.Managers
                 .Where(u => u.AddressEntity.Country == country)
                 .ToListAsync();
 
-        public async Task Create(UserRequest request)
+        public async Task<UserEntity> Create(UserRequest request)
         {
-            _context.Users.Add(new UserEntity
+            var entity = new UserEntity
             {
                 Login = request.Login,
                 Password = request.Password,
@@ -48,9 +54,21 @@ namespace Identity.Persistence.Managers
                     State = request.State,
                     FlatNumber = request.FlatNumber
                 }
-            });
+            };
 
-            await _context.SaveChangesAsync();
+            _context.Users.Add(entity);
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Create failed for: {entity}", entity);
+                return null;
+            }
+
+            return entity;
         }
 
         private IQueryable<UserEntity> WithIncludeAddress() =>

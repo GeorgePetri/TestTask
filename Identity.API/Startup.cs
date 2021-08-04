@@ -25,7 +25,7 @@ namespace TestWeb.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetValue<string>("ConnectionString")).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
+                options.UseSqlServer(Configuration.GetValue<string>("ConnectionString")));
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddControllers();
             services.AddTransient<IUserManager, UserManager>();

@@ -6,28 +6,27 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using TestWeb.API;
 
-namespace TestWeb.API.Migrations
+namespace Identity.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210210084613_InitialSchema")]
-    partial class InitialSchema
+    [Migration("20210804100217_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.2");
+                .HasAnnotation("ProductVersion", "5.0.8")
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("TestWeb.API.Entities.AddressEntity", b =>
+            modelBuilder.Entity("Identity.Domain.Entities.AddressEntity", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("City")
                         .IsRequired()
@@ -63,25 +62,25 @@ namespace TestWeb.API.Migrations
                     b.ToTable("Addresses");
                 });
 
-            modelBuilder.Entity("TestWeb.API.Entities.UserEntity", b =>
+            modelBuilder.Entity("Identity.Domain.Entities.UserEntity", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<long?>("AddressEntityId")
                         .HasColumnType("bigint");
-
-                    b.Property<string>("Login")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Login")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -96,9 +95,9 @@ namespace TestWeb.API.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("TestWeb.API.Entities.UserEntity", b =>
+            modelBuilder.Entity("Identity.Domain.Entities.UserEntity", b =>
                 {
-                    b.HasOne("TestWeb.API.Entities.AddressEntity", "AddressEntity")
+                    b.HasOne("Identity.Domain.Entities.AddressEntity", "AddressEntity")
                         .WithMany()
                         .HasForeignKey("AddressEntityId")
                         .OnDelete(DeleteBehavior.Cascade);

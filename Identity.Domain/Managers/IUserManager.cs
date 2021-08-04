@@ -7,6 +7,8 @@ namespace Identity.Domain.Managers
 {
     public interface IUserManager
     {
+        Task<UserEntity> GetById(long id);
+
         Task<UserEntity> GetByLogin(string login);
 
         Task<IEnumerable<UserEntity>> GetByCountry(string country);

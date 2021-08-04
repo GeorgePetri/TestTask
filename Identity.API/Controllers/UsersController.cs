@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 using Identity.Domain.Entities;
 using Identity.Domain.Managers;
 using Identity.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
-using TestWeb.API.Repositories;
 
 namespace TestWeb.API.Controllers
 {
@@ -12,18 +11,16 @@ namespace TestWeb.API.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUserManager _userManager;
-        private readonly IUserRepository _userRepository;
 
-        public UsersController(IUserManager userManager, IUserRepository userRepository)
+        public UsersController(IUserManager userManager)
         {
             _userManager = userManager;
-            _userRepository = userRepository;
         }
 
         [HttpGet("GetUserById")]
-        public UserEntity GetById(long id)
+        public async Task<UserEntity> GetById(long id)
         {
-            return _userRepository.Get().Result.First(u => u.Id == id);
+            return await _userManager.GetById(id);
         }
 
         [HttpGet("GetUserByLogin")]

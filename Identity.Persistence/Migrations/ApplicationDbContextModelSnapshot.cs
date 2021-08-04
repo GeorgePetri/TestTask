@@ -32,7 +32,7 @@ namespace Identity.Persistence.Migrations
 
                     b.Property<string>("Country")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -55,9 +55,14 @@ namespace Identity.Persistence.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Addresses");
+                    b.HasIndex("Country");
+
+                    b.ToTable("AddressEntity");
                 });
 
             modelBuilder.Entity("Identity.Domain.Entities.UserEntity", b =>
@@ -66,9 +71,6 @@ namespace Identity.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<long?>("AddressEntityId")
-                        .HasColumnType("bigint");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -80,15 +82,23 @@ namespace Identity.Persistence.Migrations
 
                     b.Property<string>("Login")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long?>("UserId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("AddressEntityId");
+                    b.HasIndex("Login")
+                        .IsUnique();
+
+                    b.HasIndex("UserId")
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
 
                     b.ToTable("Users");
                 });
@@ -96,8 +106,8 @@ namespace Identity.Persistence.Migrations
             modelBuilder.Entity("Identity.Domain.Entities.UserEntity", b =>
                 {
                     b.HasOne("Identity.Domain.Entities.AddressEntity", "AddressEntity")
-                        .WithMany()
-                        .HasForeignKey("AddressEntityId")
+                        .WithOne()
+                        .HasForeignKey("Identity.Domain.Entities.UserEntity", "UserId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("AddressEntity");

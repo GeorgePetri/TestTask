@@ -12,14 +12,22 @@ namespace Identity.Persistence
 
         public DbSet<UserEntity> Users { get; private set; }
 
-        public DbSet<AddressEntity> Addresses { get; private set; }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<UserEntity>()
+            var userBuilder = modelBuilder.Entity<UserEntity>();
+
+            userBuilder
                 .HasOne(d => d.AddressEntity)
-                .WithMany()
+                .WithOne()
+                .HasForeignKey<UserEntity>("UserId")
                 .OnDelete(DeleteBehavior.Cascade);
+            userBuilder.HasIndex(u => u.Login)
+                .IsUnique();
+
+            var addressBuilder = modelBuilder.Entity<AddressEntity>();
+
+            addressBuilder.Property<long>("UserId");
+            addressBuilder.HasIndex(a => a.Country);
         }
     }
 }

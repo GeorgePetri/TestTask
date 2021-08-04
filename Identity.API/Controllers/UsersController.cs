@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Identity.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
-using TestWeb.API.Entities;
 using TestWeb.API.Managers;
 using TestWeb.API.Models;
 using TestWeb.API.Repositories;

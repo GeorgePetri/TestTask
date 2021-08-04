@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TestWeb.API.Entities;
+using Identity.Domain.Entities;
 
 namespace TestWeb.API.Repositories
 {

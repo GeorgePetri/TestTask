@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Identity.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using TestWeb.API.Entities;
 
 namespace TestWeb.API.Repositories
 {

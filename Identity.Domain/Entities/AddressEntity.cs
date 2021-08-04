@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace TestWeb.API.Entities
+namespace Identity.Domain.Entities
 {
     public class AddressEntity
     {

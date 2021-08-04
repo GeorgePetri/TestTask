@@ -27,7 +27,7 @@ namespace TestWeb.API
                 options.UseSqlServer(Configuration.GetValue<string>("ConnectionString")));
             services.AddControllers();
             services.AddTransient<IUserManager, UserManager>();
-            services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "Identity.API", Version = "v1" }); });
+            services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "Identity.Startup", Version = "v1" }); });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -37,7 +37,7 @@ namespace TestWeb.API
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Identity.API v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Identity.Startup v1"));
             }
 
             app.UseHttpsRedirection();

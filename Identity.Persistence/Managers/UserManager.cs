@@ -91,6 +91,7 @@ namespace Identity.Persistence.Managers
             }
             catch (Exception e)
             {
+                HidePassword(entity);
                 _logger.LogError(e, "Create failed for: {entity}", entity);
                 return null;
             }

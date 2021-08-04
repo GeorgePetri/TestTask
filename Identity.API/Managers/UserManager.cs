@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Identity.Domain.Entities;
-using TestWeb.API.Models;
+using Identity.Domain.Managers;
+using Identity.Domain.Models;
 using TestWeb.API.Repositories;
 
 namespace TestWeb.API.Managers
@@ -18,12 +19,12 @@ namespace TestWeb.API.Managers
             _userRepository = userRepository;
             _addressRepository = addressRepository;
         }
-        
+
         public Task<UserEntity> GetByLogin(string login)
         {
             return Task.FromResult(_userRepository.Get().Result.First(u => u.Login == login));
         }
-        
+
         public Task<IEnumerable<UserEntity>> GetByCountry(string country)
         {
             return Task.FromResult(_userRepository.Get().Result.Where(u => u.AddressEntity.Country == country));
@@ -52,7 +53,7 @@ namespace TestWeb.API.Managers
                 FirstName = request.FirstName,
                 LastName = request.LastName
             });
-            
+
             return Task.CompletedTask;
         }
     }

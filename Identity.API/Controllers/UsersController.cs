@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Identity.Domain.Entities;
+using Identity.Domain.Managers;
+using Identity.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
-using TestWeb.API.Managers;
-using TestWeb.API.Models;
 using TestWeb.API.Repositories;
 
 namespace TestWeb.API.Controllers
@@ -19,17 +19,17 @@ namespace TestWeb.API.Controllers
             _userManager = userManager;
             _userRepository = userRepository;
         }
-        
+
         [HttpGet("GetUserById")]
         public UserEntity GetById(long id)
         {
             return _userRepository.Get().Result.First(u => u.Id == id);
-        }   
+        }
 
         [HttpGet("GetUserByLogin")]
         public UserEntity GetByLogin(string login)
         {
-             return _userManager.GetByLogin(login).Result;
+            return _userManager.GetByLogin(login).Result;
         }
 
         [HttpGet("GetUsersByCountry")]

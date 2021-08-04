@@ -1,3 +1,4 @@
+using Identity.Domain.Managers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -22,11 +23,12 @@ namespace TestWeb.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetValue<string>("ConnectionString")).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(Configuration.GetValue<string>("ConnectionString")).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddControllers();
             services.AddTransient<IUserManager, UserManager>();
-            services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "Identity.API", Version = "v1"}); });
+            services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "Identity.API", Version = "v1" }); });
             services.AddTransient<IAddressRepository, AddressRepository>();
         }
 
@@ -47,7 +49,7 @@ namespace TestWeb.API
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
-            
+
             context.Database.Migrate();
         }
     }

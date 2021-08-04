@@ -2,7 +2,6 @@
 
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
-        <RootNamespace>TestWeb.API</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -22,6 +21,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\Identity.Api\Identity.Api.csproj"/>
       <ProjectReference Include="..\Identity.Domain\Identity.Domain.csproj" />
         <ProjectReference Include="..\Identity.Persistence\Identity.Persistence.csproj"/>
     </ItemGroup>

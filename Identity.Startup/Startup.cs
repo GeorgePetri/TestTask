@@ -8,8 +8,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using TestWeb.API.Controllers;
 
-namespace TestWeb.API
+namespace Identity.Startup
 {
     public class Startup
     {
@@ -25,7 +26,8 @@ namespace TestWeb.API
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetValue<string>("ConnectionString")));
-            services.AddControllers();
+            services.AddControllers()
+                .AddApplicationPart(typeof(UsersController).Assembly);
             services.AddTransient<IUserManager, UserManager>();
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "Identity.Startup", Version = "v1" }); });
         }

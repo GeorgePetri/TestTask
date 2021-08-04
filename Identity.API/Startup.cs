@@ -1,4 +1,5 @@
 using Identity.Domain.Managers;
+using Identity.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;

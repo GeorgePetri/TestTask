@@ -1,7 +1,7 @@
 using Identity.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace TestWeb.API
+namespace Identity.Persistence
 {
     public class ApplicationDbContext : DbContext
     {

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Identity.Domain.Entities;
+using Identity.Persistence;
 using Microsoft.EntityFrameworkCore;
 
 namespace TestWeb.API.Repositories
@@ -13,10 +14,10 @@ namespace TestWeb.API.Repositories
         {
             _context = context;
         }
-        
+
         public async Task<IEnumerable<UserEntity>> Get()
         {
-             return await _context.Users.Include(u => u.AddressEntity).ToArrayAsync();
+            return await _context.Users.Include(u => u.AddressEntity).ToArrayAsync();
         }
 
         public UserEntity Save(UserEntity user)
